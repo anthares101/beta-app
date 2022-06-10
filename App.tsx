@@ -106,13 +106,33 @@ const App = () => {
 
     sequenceRead.current.push(bitDetected);
     if (sequenceRead.current.join('').slice(-2) === SPECIAL_SEQUENCE) {
-      ToastAndroid.show(
-        `Message received: ${sequenceRead.current.join('').slice(0, -2)}`,
-        ToastAndroid.SHORT,
-      );
+      try {
+        const asciiString = fromBinary(
+          sequenceRead.current.join('').split('9'),
+        );
+        ToastAndroid.show(
+          `Message received: ${asciiString}`,
+          ToastAndroid.LONG,
+        );
+      } catch (error) {
+        ToastAndroid.show(
+          'Error reading the message, restarting scanner',
+          ToastAndroid.LONG,
+        );
+      }
       readingMessage.current = false;
       sequenceRead.current = [];
     }
+  };
+
+  const fromBinary = (binaryCharacters: string[]): string => {
+    const asciiCharacters: string[] = [];
+
+    binaryCharacters.forEach(binaryChar => {
+      asciiCharacters.push(String.fromCharCode(parseInt(binaryChar, 2)));
+    });
+
+    return asciiCharacters.join('');
   };
 
   const frameProcessor = useFrameProcessor(frame => {
