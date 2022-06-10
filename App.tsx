@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, ToastAndroid, View} from 'react-native';
 import {runOnJS} from 'react-native-reanimated';
 import {
   Camera,
@@ -20,7 +20,10 @@ const App = () => {
 
   useEffect(() => {
     if (detectedText && detectedText.result.text) {
-      console.log(detectedText.result.text);
+      ToastAndroid.show(
+        `Detected text: ${detectedText.result.text}`,
+        ToastAndroid.SHORT,
+      );
     }
   }, [detectedText]);
 
@@ -41,7 +44,7 @@ const App = () => {
       style={StyleSheet.absoluteFill}
       device={device}
       isActive={true}
-      frameProcessorFps={60}
+      frameProcessorFps={1}
       frameProcessor={frameProcessor}
     />
   ) : (
