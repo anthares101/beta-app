@@ -100,8 +100,8 @@ const App = () => {
         );
         readingMessage.current = true;
         sequenceRead.current = [];
-        return;
       }
+      return;
     }
 
     sequenceRead.current.push(bitDetected);
