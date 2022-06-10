@@ -106,20 +106,8 @@ const App = () => {
 
     sequenceRead.current.push(bitDetected);
     if (sequenceRead.current.join('').slice(-2) === SPECIAL_SEQUENCE) {
-      try {
-        const asciiString = fromBinary(
-          sequenceRead.current.join('').split('9'),
-        );
-        ToastAndroid.show(
-          `Message received: ${asciiString}`,
-          ToastAndroid.LONG,
-        );
-      } catch (error) {
-        ToastAndroid.show(
-          'Error reading the message, restarting scanner',
-          ToastAndroid.LONG,
-        );
-      }
+      const asciiString = fromBinary(sequenceRead.current.join('').split('9'));
+      ToastAndroid.show(`Message received: ${asciiString}`, ToastAndroid.LONG);
       readingMessage.current = false;
       sequenceRead.current = [];
     }
