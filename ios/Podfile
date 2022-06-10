@@ -19,6 +19,8 @@ target 'beta' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
+  pod 'VisionCamera', :path => '../node_modules/react-native-vision-camera'
+
   target 'betaTests' do
     inherit! :complete
     # Pods for testing
