@@ -78,6 +78,19 @@ const App = () => {
     switch (numbers[1]) {
       case '7': {
         numbers[1] = '1';
+        break;
+      }
+      case 'o': {
+        numbers[1] = '0';
+        break;
+      }
+      case 'O': {
+        numbers[1] = '0';
+        break;
+      }
+      case '!': {
+        numbers[1] = '1';
+        break;
       }
     }
 
