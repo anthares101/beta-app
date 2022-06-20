@@ -40,16 +40,16 @@ const App = () => {
   };
 
   const processDetectedText = () => {
-    let fpsValue = extractFpsValue();
+    const fpsValue = extractFpsValue();
     if (!fpsValue) {
       return;
     }
-    fpsValue = fixFpsValue(fpsValue);
     decodeMessage(fpsValue);
   };
 
   const extractFpsValue = (): number | undefined => {
-    const matches: string[] = detectedText.result.text.match(/\d+/g);
+    const detectedTextFixed = fixDetection(detectedText.result.text);
+    const matches: string[] | null = detectedTextFixed.match(/\d+/g);
     if (!matches) {
       return;
     }
@@ -69,32 +69,11 @@ const App = () => {
     return Math.max(...possibleFpsValues);
   };
 
-  const fixFpsValue = (fpsValue: number): number => {
-    const numbers = fpsValue.toString().split('');
-    if (numbers.length < 2) {
-      return fpsValue;
-    }
+  const fixDetection = (detection: string): string => {
+    const maybe0 = /o|O/g;
+    const maybe1 = /7|¡|!|i|I/g;
 
-    switch (numbers[1]) {
-      case '7': {
-        numbers[1] = '1';
-        break;
-      }
-      case 'o': {
-        numbers[1] = '0';
-        break;
-      }
-      case 'O': {
-        numbers[1] = '0';
-        break;
-      }
-      case '!': {
-        numbers[1] = '1';
-        break;
-      }
-    }
-
-    return Number(numbers.join(''));
+    return detection.replace(maybe0, '0').replace(maybe1, '1');
   };
 
   const decodeMessage = (fpsValue: number) => {
